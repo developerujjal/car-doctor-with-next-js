@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/dbConnect";
+import bcrypt from "bcrypt";
 
 export async function POST(request) {
     try {
@@ -11,7 +12,9 @@ export async function POST(request) {
             return Response.json({ message: "User already exists", }, { status: 409 });
         }
 
-        const result = await dbCollection.insertOne(body);
+        const hashPassword = bcrypt.hashSync(body.password, 14);
+
+        const result = await dbCollection.insertOne({ ...body, password: hashPassword });
         return Response.json({ message: "Data inserted successfully!", result }, { status: 201 });
     } catch (error) {
         return Response.json({ message: "Failed to insert data" }, { status: 500 });

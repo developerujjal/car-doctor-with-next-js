@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
@@ -18,8 +19,27 @@ const SignUpPage = () => {
 
         }
 
-        
+        const response = await fetch('http://localhost:3000/signup/api', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+
+        const data = await response.json();
+        console.log(data);
+
+        if (data?.result.insertedId) {
+            e.target.reset()
+        }
+
+
     }
+
+
+
+    
     return (
         <section>
             <div className="container mx-auto px-4 md:px-12 lg:px-24 py-4">
@@ -33,7 +53,7 @@ const SignUpPage = () => {
                                 Sign in to your account
                             </h1>
                             <form
-                                // onSubmit={handleSignUp}
+                                onSubmit={handleSignUp}
                                 className="space-y-4 md:space-y-6">
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm md:text-base font-medium text-[#444444]">Name</label>
