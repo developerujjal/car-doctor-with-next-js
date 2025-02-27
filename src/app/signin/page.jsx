@@ -6,20 +6,25 @@ import { FaLinkedinIn } from "react-icons/fa";
 import Image from 'next/image';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 
 const SignInPage = () => {
+    const router = useRouter();
 
     const handleSignIn = async (e) => {
         e.preventDefault();
         try {
             const email = e.target.email.value;
             const password = e.target.password.value;
-            const resp = signIn("credentials", {
+            const resp = await signIn("credentials", {
                 email, password, redirect: false
             })
 
-            console.log(resp)
+            if (resp.status === 200) {
+                e.target.reset();
+                router.push('/');
+            }
 
 
         } catch (error) {

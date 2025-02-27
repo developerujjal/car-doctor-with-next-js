@@ -1,4 +1,5 @@
 'use client'
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -6,7 +7,8 @@ import { useState } from "react";
 
 const NavBar = () => {
     const user = true;
-
+    const session = useSession();
+    console.log(session)
     const [openToggle, setOpenTOggle] = useState(false)
 
     return (
@@ -16,9 +18,18 @@ const NavBar = () => {
                     <Link href={'/'} className="flex items-center space-x-3 rtl:space-x-reverse">
                         <Image src={'/assets/logo.svg'} width={70} height={70} alt="Logo" />
                     </Link>
-                    <div className={`flex md:order-2 ${user ? "block gap-3" : "block"} space-x-3 md:space-x-0 rtl:space-x-reverse`}>
-                        <button type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter`}>Appointment</button>
-                        <button type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none ${user ? "block" : "hidden"} focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter`}>Sign Out</button>
+                    <div className={`flex md:order-2 ${session?.status === 'authenticated' ? "block gap-3" : "block"} space-x-3 md:space-x-0 rtl:space-x-reverse`}>
+                        <button type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter mr-4`}>Appointment</button>
+
+                        {
+
+                            session?.status === 'authenticated' ? <>
+                                <button onClick={() => signOut()} type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter`}>Sign Out</button>
+                            </> : <>
+                                <button onClick={() => signIn()} type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter`}>Sign In</button>
+                            </>
+                        }
+                        {/* <button type="button" className={`text-[#FF3811] border border-[#FF3811] focus:ring-1 focus:outline-none ${session?.status === 'authenticated' ? "block" : "hidden"} focus:ring-[#FF3811] font-medium rounded text-sm px-4 py-2.5 text-center font-inter`}>Sign Out</button> */}
 
                         <button
                             onClick={() => setOpenTOggle(!openToggle)}

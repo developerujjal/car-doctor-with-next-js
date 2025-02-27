@@ -1,5 +1,7 @@
+import { dbConnect } from "@/lib/dbConnect";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 
 
 // export const authOptions = {
@@ -32,8 +34,27 @@ const handler = NextAuth({
                 password: {}
             },
             async authorize(credentials, req) {
-                console.log(credentials)
-                return true;
+                console.log("This is Manual Login: ", credentials)
+
+                const { email, password } = credentials;
+
+                if (!email || !password) {
+                    return null // Better to provide meaningfull message
+                }
+
+                const db = await dbConnect();
+                const currentUser = await db.collection('users').findOne({ email })
+                if (!currentUser) {
+                    return null //Better to provide meaningfull message
+                }
+
+                const matchedPassword = bcrypt.compareSync(password, currentUser?.password);
+                if (!matchedPassword) {
+                    return null //Better to provide meaningfull message
+                }
+
+
+                return currentUser;
             }
         })
     ],
