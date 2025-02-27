@@ -1,14 +1,30 @@
+'use client'
 import React from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import Image from 'next/image';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
+
 
 const SignInPage = () => {
 
-    const handleSignIn = () => {
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        try {
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            const resp = signIn("credentials", {
+                email, password, redirect: false
+            })
 
+            console.log(resp)
+
+
+        } catch (error) {
+            return null;
+        }
     }
 
 
@@ -25,7 +41,7 @@ const SignInPage = () => {
                                 Sign in to your account
                             </h1>
                             <form
-                                // onSubmit={handleSignIn}
+                                onSubmit={handleSignIn}
                                 className="space-y-4 md:space-y-6">
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm md:text-base font-medium text-[#444444]">Your email</label>
