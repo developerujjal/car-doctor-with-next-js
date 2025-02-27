@@ -7,6 +7,19 @@ import Image from 'next/image';
 
 
 const SignUpPage = () => {
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+
+        const newUser = {
+            name: e.target.name.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
+
+        }
+
+        
+    }
     return (
         <section>
             <div className="container mx-auto px-4 md:px-12 lg:px-24 py-4">
