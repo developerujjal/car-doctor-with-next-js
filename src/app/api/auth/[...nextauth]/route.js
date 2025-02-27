@@ -4,24 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
 
-// export const authOptions = {
-//     session: {
-//         strategy: "jwt",
-//         maxAge: 30 * 24 * 60 * 60, // 30 days
-//     },
-//     providers: [
-
-//     ],
-//     pages: {
-//         signI
-//     },
-//     callbacks: {
-
-//     }
-// }
-
-
-const handler = NextAuth({
+export const authOptions = {
     session: {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -34,27 +17,37 @@ const handler = NextAuth({
                 password: {}
             },
             async authorize(credentials, req) {
-                console.log("This is Manual Login: ", credentials)
+                // console.log("This is Manual Login: ", credentials);
 
                 const { email, password } = credentials;
 
+                // Check if email and password are provided
                 if (!email || !password) {
-                    return null // Better to provide meaningfull message
-                }
-
-                const db = await dbConnect();
-                const currentUser = await db.collection('users').findOne({ email })
-                if (!currentUser) {
-                    return null //Better to provide meaningfull message
-                }
-
-                const matchedPassword = bcrypt.compareSync(password, currentUser?.password);
-                if (!matchedPassword) {
-                    return null //Better to provide meaningfull message
+                    throw new Error("Email and password are required");
                 }
 
 
-                return currentUser;
+                try {
+                    const db = await dbConnect();
+                    const currentUser = await db.collection('users').findOne({ email });
+
+                    // Check if user exists
+                    if (!currentUser) {
+                        return null;
+                    }
+
+                    // Compare the passwords (bcrypt.compare is async)
+                    const matchedPassword = await bcrypt.compare(password, currentUser?.password);
+                    if (!matchedPassword) {
+                        throw new Error("Incorrect password");
+                    }
+
+                    // Return user details upon successful login
+                    return currentUser;
+                } catch (error) {
+                    console.error("Authorization error:", error);
+                    return null; // You might want to handle errors differently here
+                }
             }
         })
     ],
@@ -64,7 +57,9 @@ const handler = NextAuth({
     callbacks: {
 
     }
-})
+};
+
+const handler = NextAuth(authOptions);
 
 
 export { handler as GET, handler as POST }

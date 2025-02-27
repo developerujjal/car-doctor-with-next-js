@@ -50,7 +50,7 @@ const SignUpPage = () => {
                     <div className="w-full bg-white border rounded-lg shadow md:mt-0 sm:max-w-lg xl:p-0">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 md:px-10 text-[#444444] border rounded-lg border-[#A2A2A2] font-inter">
                             <h1 className="text-xl py-8 text-center font-bold leading-tight tracking-tight text-[#444444] md:text-2xl">
-                                Sign in to your account
+                                Sign up to your account
                             </h1>
                             <form
                                 onSubmit={handleSignUp}

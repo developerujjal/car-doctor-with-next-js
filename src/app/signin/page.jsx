@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
@@ -11,15 +11,30 @@ import { useRouter } from 'next/navigation';
 
 const SignInPage = () => {
     const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState('')
 
     const handleSignIn = async (e) => {
         e.preventDefault();
+        setErrorMessage('');
+
         try {
             const email = e.target.email.value;
             const password = e.target.password.value;
             const resp = await signIn("credentials", {
                 email, password, redirect: false
             })
+
+            if (resp?.error === 'CredentialsSignin') {
+                setErrorMessage('Please inter a valid Credentials')
+            }
+
+            if (resp?.error === 'Email and password are required') {
+                setErrorMessage('Email and password are required')
+            }
+
+            if (resp?.error === 'Incorrect password') {
+                setErrorMessage('Please inter a valid Credentials')
+            }
 
             if (resp.status === 200) {
                 e.target.reset();
@@ -28,7 +43,8 @@ const SignInPage = () => {
 
 
         } catch (error) {
-            return null;
+            return null
+            // setErrorMessage('Please try again later.')
         }
     }
 
@@ -56,6 +72,9 @@ const SignInPage = () => {
                                     <label htmlFor="password" className="block mb-2 text-sm md:text-base font-medium text-[#444444]">Password</label>
                                     <input type="password" name="password" id="password" placeholder="••••••••" className="border border-gray-300 text-[#444444] rounded-lg focus:border-[#A2A2A2] block w-full p-2.5" required="" />
                                 </div>
+                                {
+                                    errorMessage && <p className='text-red-400 mt-2'>{errorMessage}</p>
+                                }
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-start">
                                         <div className="flex items-center h-5">
