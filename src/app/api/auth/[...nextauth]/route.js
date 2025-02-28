@@ -121,3 +121,28 @@ const handler = NextAuth(authOptions);
 
 
 export { handler as GET, handler as POST }
+
+
+
+
+/* 
+
+ async session({ session, token }) {
+      // Add profile information to the session
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.image = token.picture;
+      return session;
+    },
+    async jwt({ token, user, account, profile }) {
+      // Initial sign-in
+      if (account && user) {
+        // Add profile information to the JWT
+        token.name = profile.name;
+        token.email = profile.email;
+        token.picture = profile.picture;
+      }
+      return token;
+    },
+
+*/

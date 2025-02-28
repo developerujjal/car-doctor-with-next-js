@@ -1,6 +1,24 @@
 import React from 'react';
+import ProductCard from '../cards/ProductCard/ProductCard';
 
-const ServicesArea = () => {
+const getServicesData = async () => {
+    try {
+        const res = await fetch('http://localhost:3000/api/services');
+        const data = await res.json();
+        return data;
+
+    } catch (error) {
+        return error;
+    }
+}
+
+
+const ServicesArea = async () => {
+
+    const services = await getServicesData();
+    console.log(services)
+    
+
     return (
         <div className="container mx-auto px-4 md:px-12 lg:px-24 py-4">
             <div className="font-inter">
@@ -11,7 +29,9 @@ const ServicesArea = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {
-
+                        services?.result?.map(service => {
+                            return <ProductCard key={service?.id} product={service}/>
+                        })
                     }
                 </div>
                 <div className="text-center mt-10">
