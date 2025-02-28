@@ -1,12 +1,10 @@
 'use client'
 import React, { useState } from 'react';
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa";
 import Image from 'next/image';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import SocialLoggedIn from '@/components/SocialLoggedIn/SocialLoggedIn';
 
 
 const SignInPage = () => {
@@ -88,11 +86,9 @@ const SignInPage = () => {
                                 </div>
                                 <button type="submit" className="w-full text-white bg-[#FF3811] hover:bg-[#ab2106] focus:ring-4 focus:outline-none focus:ring-[#ab2106] font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
                                 <span className="text-[444444] font-medium text-center text-sm mt-3 inline-block w-full">Or Sign In with</span>
-                                <div className="flex gap-x-2 justify-center">
-                                    <button className="p-4 rounded-full bg-[#F5F5F8]"><FaFacebookF color="#3B5998" size={16} /></button>
-                                    <button className="p-4 rounded-full bg-[#F5F5F8]"><FaLinkedinIn color="#0A66C2" size={16} /></button>
-                                    <button className="p-4 rounded-full bg-[#F5F5F8]"><FcGoogle size={16} /></button>
-                                </div>
+
+                                <SocialLoggedIn />
+
                                 <p className="text-sm font-light text-center">
                                     <span className="text-[#737373]">Don’t have an account yet?</span> <Link href={'/signup'} className="font-medium hover:underline text-[#FF3811]">Sign up</Link>
                                 </p>

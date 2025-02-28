@@ -6,9 +6,9 @@ import { useState } from "react";
 
 
 const NavBar = () => {
-    const user = true;
+
     const session = useSession();
-    console.log(session)
+    // console.log(session)
     const [openToggle, setOpenTOggle] = useState(false)
 
     return (

@@ -1,6 +1,7 @@
 import { dbConnect } from "@/lib/dbConnect";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 
 
@@ -49,13 +50,69 @@ export const authOptions = {
                     return null; // You might want to handle errors differently here
                 }
             }
-        })
+        }),
+        // GoogleProvider({
+        //     clientId: process.env.GOOGLE_CLIENT_ID,
+        //     clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        // })
+
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: "consent", // Force consent screen
+                    access_type: "offline", // Request refresh token
+                    response_type: "code", // Use authorization code flow
+                },
+            },
+        }),
     ],
     pages: {
         signIn: '/signin'
     },
     callbacks: {
+        async signIn({ user, account }) {
+            if (account.provider === "google") {
+                try {
+                    const db = await dbConnect();
+                    const userCollection = await db.collection("users");
+                    const userExsit = await userCollection.findOne({ email: user?.email })
+                    if (!userExsit) {
+                        await userCollection.insertOne(user);
+                        return user;
+                    } else {
+                        return user;
+                    }
 
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                return user;
+            }
+        },
+
+        async jwt({ token, user, account, profile, isNewUser }) {
+            if (account) {
+                console.log("TOKEN:", token)
+                console.log("USER:", user)
+                console.log("ACCOUNT:", account)
+                token.refresh_token = account?.refresh_token;
+            }
+            return token
+        },
+
+        async session({ session, token }) {
+            console.log("SESSION session: ", session)
+            console.log("SESSION token: ", token)
+            return session
+        },
+
+        async redirect({ url, baseUrl }) {
+            // Redirect to the homepage after login
+            return `${baseUrl}/`;
+        },
     }
 };
 
