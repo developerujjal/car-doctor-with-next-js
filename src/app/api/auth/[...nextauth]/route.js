@@ -61,8 +61,8 @@ export const authOptions = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             authorization: {
                 params: {
-                    prompt: "consent", // Force consent screen
-                    access_type: "offline", // Request refresh token
+                    prompt: "consent", // Force the consent screen every time
+                    access_type: "online", // No need for offline access
                     response_type: "code", // Use authorization code flow
                 },
             },
@@ -73,6 +73,7 @@ export const authOptions = {
     },
     callbacks: {
         async signIn({ user, account }) {
+            console.log('SIGNIN ACC: ', account)
             if (account.provider === "google") {
                 try {
                     const db = await dbConnect();
