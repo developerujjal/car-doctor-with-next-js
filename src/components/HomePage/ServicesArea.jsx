@@ -21,7 +21,7 @@ const ServicesArea = async () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {
                         services?.result?.map(service => {
-                            return <ProductCard key={service?.id} product={service}/>
+                            return <ProductCard key={service?._id} product={service}/>
                         })
                     }
                 </div>

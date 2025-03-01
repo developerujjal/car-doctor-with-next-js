@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 export async function GET(request, { params }) {
     const { id } = await params;
-    
+
     try {
         const db = await dbConnect();
         const servicesCollection = await db.collection('services');
