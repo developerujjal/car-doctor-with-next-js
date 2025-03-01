@@ -1,4 +1,5 @@
 import { getSingelData } from '@/services/carServices';
+import Link from 'next/link';
 import React from 'react';
 
 const Detailspage = async ({ params }) => {
@@ -7,7 +8,7 @@ const Detailspage = async ({ params }) => {
 
     const service = await getSingelData(id)
 
-    console.log(service)
+    // console.log(service)
 
     return (
         <div className="bg-gray-100 font-sans">
@@ -50,7 +51,9 @@ const Detailspage = async ({ params }) => {
                         </div>
                         <div className='mt-4'>
                             <p className='text-2xl font-bold'>Price ${service.price} </p>
-                            <button className='bg-[#FF3811] py-2 px-4 rounded-md text-white font-bold'>Proceed Checkout</button>
+                            <Link
+                                href={`/services/checkout/${service?._id}`}
+                                className='bg-[#FF3811] py-2 px-4 rounded-md text-white font-bold'>Proceed Checkout</Link>
                         </div>
                     </div>
                 </div>
