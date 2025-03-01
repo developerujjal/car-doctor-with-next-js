@@ -7,8 +7,7 @@ import { getServicesData } from '@/services/carServices';
 const ServicesArea = async () => {
 
     const services = await getServicesData();
-    console.log(services)
-    
+    // console.log(services)
 
     return (
         <div className="container mx-auto px-4 md:px-12 lg:px-24 py-4">
