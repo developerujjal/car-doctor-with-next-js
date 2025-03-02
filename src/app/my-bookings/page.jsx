@@ -8,15 +8,40 @@ const MyBookingPage = () => {
     const session = useSession();
     const [services, setServices] = useState([]);
 
-    useEffect(() => {
+    const allBookingDatas = () => {
         fetch(`http://localhost:3000/api/bookings/${session?.data?.user?.email}`)
             .then(res => res.json())
             .then(data => setServices(data?.result))
+    }
+
+    useEffect(() => {
+        allBookingDatas();
     }, [session?.data?.user?.email])
 
-    // console.log(session?.data?.user?.email)
 
-    console.log(services)
+
+    const handleDelete = async (id) => {
+        console.log(id)
+        try {
+            const res = await fetch(`http://localhost:3000/api/bookings/delete-booking/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+
+            const data = await res.json();
+            console.log(data)
+            if (data?.deletedCount > 0) {
+                allBookingDatas();
+                alert('Delete Successfully')
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return (
         <section>
@@ -45,6 +70,7 @@ const MyBookingPage = () => {
                                 services?.map(order => <OrderTableRow
                                     key={order._id}
                                     service={order}
+                                    handleDelete={handleDelete}
                                 />)
                             }
                         </tbody>
