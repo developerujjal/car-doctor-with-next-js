@@ -21,9 +21,9 @@ const MyBookingPage = () => {
 
 
     const handleDelete = async (id) => {
-        console.log(id)
+        // console.log(id)
         try {
-            const res = await fetch(`http://localhost:3000/api/bookings/delete-booking/${id}`, {
+            const res = await fetch(`http://localhost:3000/api/bookings/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-type': 'application/json'

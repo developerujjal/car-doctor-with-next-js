@@ -1,4 +1,5 @@
 import { dbConnect } from '@/lib/dbConnect';
+import { ObjectId } from 'mongodb';
 import React from 'react';
 
 export const GET = async (request, { params }) => {
@@ -16,3 +17,20 @@ export const GET = async (request, { params }) => {
         return Response.json({ message: "Faild to fatch", status: 500 })
     }
 };
+
+
+
+export const DELETE = async (request, { params }) => {
+    const { email } = await params;
+
+    try {
+        const db = await dbConnect();
+        const bookingsCollection = await db.collection('bookings');
+        const query = { _id: new ObjectId(email) };
+        const result = await bookingsCollection.deleteOne(query);
+        return Response.json(result)
+
+    } catch (error) {
+        return Response.json({ message: "Faild to Delete items", status: 500 })
+    }
+}
