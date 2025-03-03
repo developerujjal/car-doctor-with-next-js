@@ -19,6 +19,29 @@ export const GET = async (request, { params }) => {
 };
 
 
+export const PATCH = async (request, { params }) => {
+    const { email } = await params;
+
+    try {
+        const body = await request.json();
+        const db = await dbConnect();
+        const bookingsCollection = await db.collection('bookings');
+        const filter = { _id: new ObjectId(email) };
+        const updateDoc = {
+            $set: {
+                ...body
+            }
+        }
+
+        const result = await bookingsCollection.updateOne(filter, updateDoc);
+        return Response.json(result)
+
+    } catch (error) {
+        return Response.json({ message: "Faild to Update", status: 500 })
+    }
+}
+
+
 
 export const DELETE = async (request, { params }) => {
     const { email } = await params;
