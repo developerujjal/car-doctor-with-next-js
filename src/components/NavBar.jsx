@@ -52,7 +52,7 @@ const NavBar = () => {
                                 <Link href={'/services'} className="block py-2 px-3 text-[#444444] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#FF3811] md:p-0">Services</Link>
                             </li>
                             <li>
-                                <Link href={'/blog'} className="block py-2 px-3 text-[#444444] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#FF3811] md:p-0">Blog</Link>
+                                <Link href={'/my-bookings'} className="block py-2 px-3 text-[#444444] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#FF3811] md:p-0">My Bookings</Link>
                             </li>
                             <li>
                                 <Link href={'/contact'} className="block py-2 px-3 text-[#444444] rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#FF3811] md:p-0">Contact</Link>

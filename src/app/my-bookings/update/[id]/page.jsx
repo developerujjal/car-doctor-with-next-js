@@ -1,11 +1,16 @@
-import CheckOutForm from '@/components/CheckOutForm/CheckOutForm';
-import { getSingelData } from '@/services/carServices';
+import UpdateForm from '@/components/UpdateForm/UpdateForm';
+import React from 'react';
 
-const CheckoutPage = async ({ params }) => {
+const UpdatePage = async ({ params }) => {
 
     const { id } = await params;
-    const service = await getSingelData(id);
+    // console.log(id)
 
+    const response = await fetch(`http://localhost:3000/api/singel-booking/${id}`);
+    const data = await response.json();
+
+
+    console.log(data)
 
     return (
         <section>
@@ -13,7 +18,7 @@ const CheckoutPage = async ({ params }) => {
                 <div>
                     <div className="min-h-screen font-inter flex items-center justify-center my-10 md:my-14">
                         <div className="w-full bg-[#F3F3F3] p-4 md:p-12 lg:p-24 rounded-lg shadow-md">
-                            <CheckOutForm service={service} />
+                            <UpdateForm service={data?.result} />
                         </div>
                     </div>
 
@@ -23,4 +28,4 @@ const CheckoutPage = async ({ params }) => {
     );
 };
 
-export default CheckoutPage;
+export default UpdatePage;

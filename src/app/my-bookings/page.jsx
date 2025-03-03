@@ -18,6 +18,7 @@ const MyBookingPage = () => {
         allBookingDatas();
     }, [session?.data?.user?.email])
 
+    console.log(services)
 
 
     const handleDelete = async (id) => {
