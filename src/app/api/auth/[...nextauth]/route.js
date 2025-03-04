@@ -1,11 +1,13 @@
-import { dbConnect } from "@/lib/dbConnect";
+import { client, dbConnect } from "@/lib/dbConnect";
 import NextAuth from "next-auth";
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 
 
 export const authOptions = {
+    adapter: MongoDBAdapter(client),
     session: {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -112,7 +114,9 @@ export const authOptions = {
 
         async redirect({ url, baseUrl }) {
             // Redirect to the homepage after login
-            return `${baseUrl}/`;
+            console.log("URL",url)
+            console.log("BASE", baseUrl)
+            return `${url}/`;
         },
     }
 };

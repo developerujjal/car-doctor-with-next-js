@@ -9,7 +9,7 @@ const MyBookingPage = () => {
     const [services, setServices] = useState([]);
 
     const allBookingDatas = () => {
-        fetch(`http://localhost:3000/api/bookings/${session?.data?.user?.email}`)
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/bookings/${session?.data?.user?.email}`)
             .then(res => res.json())
             .then(data => setServices(data?.result))
     }
@@ -24,7 +24,7 @@ const MyBookingPage = () => {
     const handleDelete = async (id) => {
         // console.log(id)
         try {
-            const res = await fetch(`http://localhost:3000/api/bookings/${id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/bookings/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-type': 'application/json'
@@ -40,6 +40,7 @@ const MyBookingPage = () => {
 
         } catch (error) {
             console.log(error)
+            return []
         }
     }
 

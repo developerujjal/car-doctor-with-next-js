@@ -1,6 +1,6 @@
 'use client'
 import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -8,6 +8,8 @@ import { FcGoogle } from 'react-icons/fc';
 const SocialLoggedIn = () => {
     const session = useSession();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const search = searchParams.get('redirect');
 
     // useEffect(() => {
     //     if (session.status === 'authenticated') {
@@ -17,7 +19,7 @@ const SocialLoggedIn = () => {
 
 
     const handleSocialLoggedIn = async (provider) => {
-        await signIn(provider, { redirect: false });
+        await signIn(provider, { redirect: false});
     }
 
 

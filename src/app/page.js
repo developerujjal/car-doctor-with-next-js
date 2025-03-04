@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import ServicesArea from "@/components/HomePage/ServicesArea";
 
 

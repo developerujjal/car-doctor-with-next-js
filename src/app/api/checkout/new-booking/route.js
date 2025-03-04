@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/dbConnect";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
     try {
@@ -6,10 +7,10 @@ export async function POST(request) {
         const bookingsCollection = await db.collection('bookings');
         const body = await request.json();
         const result = await bookingsCollection.insertOne(body);
-        return Response.json({ result })
+        return NextResponse.json({ result })
 
     } catch (error) {
-        return Response.json({ message: "Faild to fetch", status: 500 })
+        return NextResponse.json({ message: "Faild to fetch", status: 500 })
     }
 
 }

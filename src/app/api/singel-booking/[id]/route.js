@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/dbConnect"
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const GET = async (request, {params}) => {
     const { id } =await params;
@@ -8,9 +9,9 @@ export const GET = async (request, {params}) => {
         const bookingsCollection = await db.collection("bookings");
         const query = { _id: new ObjectId(id) };
         const result = await bookingsCollection.findOne(query);
-        return Response.json({ result })
+        return NextResponse.json({ result })
 
     } catch (error) {
-        return Response.json({ mesage: "faild", status: 500 })
+        return NextResponse.json({ mesage: "faild", status: 500 })
     }
 }

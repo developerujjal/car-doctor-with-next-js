@@ -7,6 +7,48 @@ const options = {
         strict: true,
         deprecationErrors: true,
     },
+};
+
+// Declare the MongoDB client
+let db;
+export let client;
+
+// Check if we are in development or production
+if (process.env.NODE_ENV === "development") {
+    // In development, use a global variable to persist the MongoDB client
+    if (!global._mongoClient) {
+        global._mongoClient = new MongoClient(uri, options);
+    }
+    client = global._mongoClient;
+} else {
+    // In production, create a new MongoDB client
+    client = new MongoClient(uri, options);
+}
+
+
+export async function dbConnect() {
+    if (!db) {
+        try {
+            // MongoDB client automatically connects on the first use, no need to await connect()
+            db = client.db(process.env.DB_NAME); // Use the DB name from environment variable
+        } catch (error) {
+            console.error("DB Connection Error: ", error);
+            throw error; // Rethrow the error to handle it in the calling function
+        }
+    }
+    return db; // Return the cached db instance
+}
+
+
+/* import { MongoClient, ServerApiVersion } from "mongodb";
+
+const uri = process.env.DB_URI;
+const options = {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    },
     // maxPoolSize: 50, // Limit the connection pool size
 };
 
@@ -39,6 +81,8 @@ export async function dbConnect() {
     return db; // Return the cached db instance
 }
 
+
+ */
 
 
 /* import { MongoClient, ServerApiVersion } from "mongodb";

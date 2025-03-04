@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SocialLoggedIn from '@/components/SocialLoggedIn/SocialLoggedIn';
 
 
 const SignInPage = () => {
     const router = useRouter();
-    const [errorMessage, setErrorMessage] = useState('')
+    const searchParams = useSearchParams();
+    const [errorMessage, setErrorMessage] = useState('');
+    const search = searchParams.get('redirect');
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -19,7 +21,7 @@ const SignInPage = () => {
             const email = e.target.email.value;
             const password = e.target.password.value;
             const resp = await signIn("credentials", {
-                email, password, redirect: false
+                email, password, redirect: true, callbackUrl: search ? search : '/'
             })
 
             if (resp?.error === 'CredentialsSignin') {

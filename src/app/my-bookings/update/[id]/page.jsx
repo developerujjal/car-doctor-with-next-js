@@ -6,7 +6,7 @@ const UpdatePage = async ({ params }) => {
     const { id } = await params;
     // console.log(id)
 
-    const response = await fetch(`http://localhost:3000/api/singel-booking/${id}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/singel-booking/${id}`);
     const data = await response.json();
 
 

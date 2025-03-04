@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/dbConnect"
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export const DELETE = async (request, { params }) => {
 
@@ -9,9 +10,9 @@ export const DELETE = async (request, { params }) => {
         const bookingsCollection = await db.collection('bookings');
         const query = { _id: new ObjectId(id) };
         const result = await bookingsCollection.deleteOne(query);
-        return Response.json(result)
+        return NextResponse.json(result)
 
     } catch (error) {
-        return Response.json({ message: "Faild to fetch", status: 500 })
+        return NextResponse.json({ message: "Faild to fetch", status: 500 })
     }
 }

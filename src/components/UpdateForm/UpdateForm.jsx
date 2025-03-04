@@ -15,7 +15,7 @@ const UpdateForm = ({ service }) => {
             mesage: e.target.message.value
         }
 
-        const res = await fetch(`http://localhost:3000/api/bookings/${service?._id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/bookings/${service?._id}`, {
             method: "PATCH",
             headers: {
                 'Content-type': 'application/json'
@@ -24,7 +24,7 @@ const UpdateForm = ({ service }) => {
         });
         const data = await res.json();
 
-        if(data?.modifiedCount > 0){
+        if (data?.modifiedCount > 0) {
             alert("Update Successfully");
             router.push('/')
         }

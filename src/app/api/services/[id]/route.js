@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/dbConnect"
 import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
     const { id } = await params;
@@ -9,9 +10,9 @@ export async function GET(request, { params }) {
         const servicesCollection = await db.collection('services');
         const query = { _id: new ObjectId(id) };
         const result = await servicesCollection.findOne(query);
-        return Response.json(result);
+        return NextResponse.json(result);
 
     } catch (error) {
-        return Response.json({ message: "faild to fetch", status: 500 })
+        return NextResponse.json({ message: "faild to fetch", status: 500 })
     }
 }
